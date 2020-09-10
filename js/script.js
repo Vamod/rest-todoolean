@@ -11,7 +11,56 @@ $(document).ready(function(){
         var newElement = $('#nuova-voce').val();
         createElement(newElement);
     });
+//funzione per far scomparire il testo e apparire la casella input al click
+    $(document).on('click', 'span.text', function(){
+        var spanText = $(this);
+        $(this).siblings().show();
+        $(this).hide();
+    });
+
+// al doppio click modifico il testo
+    $(document).on('dblclick', 'input.input-add', function(){
+        var inputText = $(this).val();
+        var idToDo = $(this).parent().attr('data-id');
+          updateElement(inputText, idToDo);
+          $(this).hide();
+          $(this).siblings().show();
+    });
+
+    $('input.input-add').keydown(function(){
+        if(event.which == 13 || event.keyCode == 13){
+            var inputText = $(this).val();
+            var idToDo = $(this).parent().attr('data-id');
+              updateElement(inputText, idToDo);
+              $(this).hide();
+              $(this).siblings().show();
+        }
+    });
+
 });
+
+
+//funzione per aggiornare oggetto
+function updateElement(data, id){
+    $.ajax(
+        {
+            url: 'http://157.230.17.132:3022/todos/' + id,
+            method: 'PUT',
+            data: {
+                text: data
+
+            },
+            success: function(risposta){
+
+                $('.todos').html('');
+                getData();
+            },
+            error: function(){
+                alert('Errore');
+            }
+        }
+    );
+}
 
 function createElement(elemento){
     $.ajax(
@@ -23,6 +72,7 @@ function createElement(elemento){
 
             },
             success: function(risposta){
+
                 $('.todos').html('');
                 getData();
             },
@@ -76,7 +126,7 @@ function getElement(data){
         var context = /*risposta[i];*/ {
             text: data[i].text,
             id: data[i].id
-        }
+        };
         var html = template(context);
         $('.todos').append(html);
 
