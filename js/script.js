@@ -19,17 +19,20 @@ $(document).ready(function(){
     });
 
 // al doppio click modifico il testo
-    $(document).on('dblclick', 'input.input-add', function(){
-        var inputText = $(this).val();
-        var idToDo = $(this).parent().attr('data-id');
-          updateElement(inputText, idToDo);
-          $(this).hide();
-          $(this).siblings().show();
-    });
+    // $(document).on('dblclick', 'input.input-add', function(){
+    //     var inputText = $(this).val();
+    //     var idToDo = $(this).parent().attr('data-id');
+    //       updateElement(inputText, idToDo);
+    //       $(this).hide();
+    //       $(this).siblings().show();
+    // });
 
-    $('input.input-add').keydown(function(){
+
+// all'invio modifico il testo    
+    $(document).on('keypress', 'input.input-add', function(){
         if(event.which == 13 || event.keyCode == 13){
             var inputText = $(this).val();
+            console.log(inputText);
             var idToDo = $(this).parent().attr('data-id');
               updateElement(inputText, idToDo);
               $(this).hide();
